@@ -1,0 +1,42 @@
+{% extends 'work/base.html' %}
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div id='calendar'></div>
+<script>
+  $(function() {
+    $('#calendar').fullCalendar({
+    themeSystem:'bootstrap4',
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek'
+      },
+    bootstrapFontAwesome: {
+      close: 'fa-times',
+      prev: 'fa-chevron-left',
+      next: 'fa-chevron-right',
+      prevYear: 'fa-angle-double-left',
+      nextYear: 'fa-angle-double-right'
+      },
+    selectable: true,
+    })
+  })
+  
+$('#calendar').fullCalendar({
+  dayClick: function(date, jsEvent, view) {
+    url = "{% url 'day-page' 99999 88888 77777 %}"
+    url = url.replace(/99999/,date.year())
+    url = url.replace(/88888/,date.month())
+    url = url.replace(/77777/,date.date())
+    window.location.href = url
+  }
+});
+</script>
+
+{% endblock %}
