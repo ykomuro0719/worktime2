@@ -1,4 +1,4 @@
-{% extends 'work/base.html' %}
+{% extends 'base.html' %}
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
@@ -7,23 +7,37 @@
 {% endblock %}
 
 {% block content %}
+<br><br>
+<h2>{{year}}/{{month}}/{{day}}</h2>
+<br><br>
 <form method="post">
 {% csrf_token %}
-<div class="row">
-  <div class="col-sm-2">
-    {{form.level1}}
+  {{form.day}}
+  <div class="row">
+    <div class="col-sm-2">
+      {{form.level1}}
+    </div>
+    <div class="col-sm-2">
+      {{form.level2}}
+    </div>
+    <div class="col-sm-2">
+      {{form.level3}}
+    </div>
+    <div class="col-sm-2">
+    {{form.time}}
+    </div>
+    <button type="submit" class="btn btn-lg btn-dark">Send</button>
   </div>
-  <div class="col-sm-2">
-    {{form.level2}}
-  </div>
-  <div class="col-sm-2">
-    {{form.level3}}
-  </div>
-  <div class="col-sm-2">
-  {{form.time}}
-  </div>
-  <button type="submit" class="btn btn-lg btn-dark">追加</button>
 </form>
-</div>
 
+<table class="table table-striped">
+  <thead>
+    <tr><th>Level1</th><th>Level2</th><th>Level3</th><th>Time</th></tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr><td>{{task.level1}}</td><td>{{task.level2}}</td><td>{{task.level3}}</td><td>{{task.time}}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

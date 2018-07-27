@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ 
+<div class="mx-auto" style="width: 200px";>
+
+        <img style="width:70%;height:70%;" src="{% static 'img/logo.png' %}" alt="Logo"/>
+  <form class="form-horizontal" method="post">
+    {% csrf_token %}
+        <div class="form-group">
+            {{ form.non_field_errors }}
+            {{ form.errors.username }}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.errors.password }}
+            {{ form.password }}
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary"type="submit">Login</button>
+        </div>
+        <div class="form-group">
+            <button id="new-btn" class="btn btn-lg btn-primary"type="button">新規作成</button>
+        </div>
+  </form>
+
+</div>
+  <script>
+      $('new-btn').on('click',function(e){
+        location.href = "{%url 'new' %}"
+      })
+  </script>
+{% endblock %}

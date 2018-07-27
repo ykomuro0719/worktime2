@@ -1,0 +1,98 @@
+[
+  {
+    "model": "work.level1",
+    "pk": 1,
+    "fields": {
+      "title": "大項目１",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level1",
+    "pk": 2,
+    "fields": {
+      "title": "大項目２",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level1",
+    "pk": 3,
+    "fields": {
+      "title": "大項目３",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level1",
+    "pk": 4,
+    "fields": {
+      "title": "大項目４",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level2",
+    "pk": 1,
+    "fields": {
+      "title": "中項目１",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level2",
+    "pk": 2,
+    "fields": {
+      "title": "中項目２",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level2",
+    "pk": 3,
+    "fields": {
+      "title": "中項目３",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level2",
+    "pk": 4,
+    "fields": {
+      "title": "中項目４",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level3",
+    "pk": 1,
+    "fields": {
+      "title": "詳細１",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level3",
+    "pk": 2,
+    "fields": {
+      "title": "詳細２",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level3",
+    "pk": 3,
+    "fields": {
+      "title": "詳細３",
+      "description": "説明"
+    }
+  },
+  {
+    "model": "work.level3",
+    "pk": 4,
+    "fields": {
+      "title": "詳細４",
+      "description": "説明"
+    }
+  }
+]
