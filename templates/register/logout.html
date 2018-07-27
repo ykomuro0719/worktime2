@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ 
+<h2>{{title}}</h2>
+<a class="btn btn-lg" href="/" role="button">TOPページ</a>
+
+  <script>
+      $('#new-btn').on('click',function(e){
+        location.href = "{%url 'new' %}"
+      })
+  </script>
+{% endblock %}

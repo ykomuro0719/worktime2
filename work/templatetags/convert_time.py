@@ -22,6 +22,6 @@ def convert_time(value):
         450:'07:30',
         480:'08:00'
     }
-    import pdb;pdb.set_trace()
+
     return CHOICE.get(value)
-          
+

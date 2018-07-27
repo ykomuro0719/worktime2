@@ -2,31 +2,42 @@
 {% load static %}
 {% block content %}
  
-<div class="mx-auto" style="width: 200px";>
+<div class="mx-auto" style="width: 300px";>
+<img style="margin:30px;width:70%;height:70%;" src="{% static 'img/logo.png' %}" alt="Logo"/>
 
-        <img style="width:70%;height:70%;" src="{% static 'img/logo.png' %}" alt="Logo"/>
-  <form class="form-horizontal" method="post">
-    {% csrf_token %}
-        <div class="form-group">
+　<div>
+    {% if form.non_field_errors or form.errors.username or form.errors.password %}
+    <div class="alert alert-danger" role="alert" style="height:100px;">
             {{ form.non_field_errors }}
             {{ form.errors.username }}
+            {{ form.errors.password }}
+    </div>
+    {% else %}
+    <div style="height:100px;"></div>
+    {% endif %}
+
+    <form class="form-horizontal" method="post">
+    {% csrf_token %}
+        <div class="form-group">
+            <label class="">{{form.username.label}}</label>
             {{ form.username }}
         </div>
         <div class="form-group">
-            {{ form.errors.password }}
+            <label>{{form.password.label}}</label>
             {{ form.password }}
         </div>
         <div class="form-group">
-            <button class="btn btn-lg btn-primary"type="submit">Login</button>
+            <div class="row">
+                <div class="col-sm-6 "><button class="btn btn-lg btn-primary"type="submit">Login</button></div>
+                <div class="col-sm-6"><button id="new-btn" class="btn btn-lg btn-primary"type="button">SignUp</button></div>
+            </div>
         </div>
-        <div class="form-group">
-            <button id="new-btn" class="btn btn-lg btn-primary"type="button">新規作成</button>
-        </div>
-  </form>
-
+    </form>
+  </div>
+  <div></div>
 </div>
   <script>
-      $('new-btn').on('click',function(e){
+      $('#new-btn').on('click',function(e){
         location.href = "{%url 'new' %}"
       })
   </script>

@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 {% endblock %}
 
+{% load convert_time %}
 {% block content %}
 <br><br>
 <h2>{{year}}/{{month}}/{{day}}</h2>
@@ -26,18 +27,35 @@
     <div class="col-sm-2">
     {{form.time}}
     </div>
-    <button type="submit" class="btn btn-lg btn-dark">Send</button>
+    <div class="col-sm-4">
+      <button type="submit" class="btn btn-block btn-lg btn-dark">Send</button>
+    </div>
   </div>
 </form>
-
+<div class="alert alert-info row" style="margin-top:30px;">
+  <div style="display:inline" >
+    <span class="col-sm-6">合計</span><span id="sum" class="col-sm-6"></span>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr><th>Level1</th><th>Level2</th><th>Level3</th><th>Time</th></tr>
   </thead>
   <tbody>
     {% for task in tasks %}
-    <tr><td>{{task.level1}}</td><td>{{task.level2}}</td><td>{{task.level3}}</td><td>{{task.time}}</td></tr>
+    <tr><td>{{task.level1}}</td><td>{{task.level2}}</td><td>{{task.level3}}</td>
+      <td data-time="{{task.time}}">{{task.time|convert_time}}</td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
+<script>
+  var sum = 0
+  for(let el of $('[data-time]')){
+    sum += Number($(el).attr('data-time'))
+  }
+  var hour = ('00' + Math.floor(sum / 60)).slice(-2)
+  var min = ('00' + sum % 60).slice(-2)
+  $('#sum').text(`${hour}:${min}`)
+</script>
 {% endblock %}

@@ -11,18 +11,8 @@ class TaskForm(forms.ModelForm):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.fields['day'].widget.attrs.update({'class':'form-control'})
-    self.fields['time'].widget.attrs.update({'class':'form-control'})
-    self.fields['level1'].widget.attrs.update({'class':'form-control'})
-    self.fields['level2'].widget.attrs.update({'class':'form-control'})
-    self.fields['level3'].widget.attrs.update({'class':'form-control'})
-        
-class CustomUserCreationForm(UserCreationForm):
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.fields['username'].widget.attrs.update({'class':'form-control'})
-    self.fields['password1'].widget.attrs.update({'class':'form-control'})
-    self.fields['password2'].widget.attrs.update({'class':'form-control'})
-    
-
-  
+    self.fields['day'].widget.attrs.update({'class':'form-control form-control-lg'})
+    self.fields['time'].widget.attrs.update({'class':'form-control form-control-lg'})
+    self.fields['level1'].widget.attrs.update({'class':'form-control form-control-lg'})
+    self.fields['level2'].widget.attrs.update({'class':'form-control form-control-lg'})
+    self.fields['level3'].widget.attrs.update({'class':'form-control form-control-lg'})

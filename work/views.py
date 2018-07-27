@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from .forms import TaskForm,CustomUserCreationForm
+from .forms import TaskForm
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView
@@ -15,7 +15,6 @@ class IndexView(TemplateView):
   def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
 
 class TaskCreateView(CreateView):
   template_name = 'work/detail.html'
@@ -41,18 +40,3 @@ class TaskCreateView(CreateView):
     data = {'tasks':tasks,'year':self.kwargs['year'],'month':self.kwargs['month'],'day':self.kwargs['day']}
     context.update(data)
     return context
-
-
-def new(request):
-  form = CustomUserCreationForm()
-  return render(request, 'work/user_new.html', {'form': form,})
-
-def create(request):
-  if request.method == 'POST':
-      form = CustomUserCreationForm(request.POST)
-      if form.is_valid():
-          form.save()
-          return HttpResponseRedirect('./login')
-      return render(request, 'work/user_new.html', {'form': form,})
-  else:
-      raise Http404
