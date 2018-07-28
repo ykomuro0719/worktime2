@@ -16,19 +16,35 @@
   {{form.day}}
   {{form.user}}
   <div class="row">
-    <div class="col-sm-2">
-      {{form.level1}}
+    <div class="col-sm-10">
+      <div class="row">
+        <div class="col-sm-3">
+          {{form.level1.label}}
+        </div>
+        <div class="col-sm-3">
+          {{form.level2.label}}
+        </div>
+        <div class="col-sm-3">
+          {{form.level3.label}}
+        </div>
+        <div class="col-sm-3">
+        {{form.time.label}}
+      </div>
+        <div class="col-sm-3">
+          {{form.level1}}
+        </div>
+        <div class="col-sm-3">
+          {{form.level2}}
+        </div>
+        <div class="col-sm-3">
+          {{form.level3}}
+        </div>
+        <div class="col-sm-3">
+        {{form.time}}
+        </div>
+      </div>
     </div>
     <div class="col-sm-2">
-      {{form.level2}}
-    </div>
-    <div class="col-sm-2">
-      {{form.level3}}
-    </div>
-    <div class="col-sm-2">
-    {{form.time}}
-    </div>
-    <div class="col-sm-4">
       <button type="submit" class="btn btn-block btn-lg btn-dark">Send</button>
     </div>
   </div>
@@ -63,8 +79,8 @@
   $('#id_level3').prop('disabled',true)
 
   $('#id_level1').on('change',function(){
-    $('#id_level2').prop('disabled',true)
-    $('#id_level3').prop('disabled',true)
+    $('#id_level2').prop('disabled',true).val(null)
+    $('#id_level3').prop('disabled',true).val(null)
     var num = $('#id_level1 option:selected').val()
     var defered = fetchChildSelection(num,'level1')
     defered.done(function(){
@@ -73,16 +89,17 @@
   })
 
   $('#id_level2').on('change',function(){
-    $('#id_level3').prop('disabled',true)
+    $('#id_level3').prop('disabled',true).prop('selected',false)
     var num = $('#id_level2 option:selected').val()
     var defered = fetchChildSelection(num,'level2')
     defered.done(function(){
-      $('#id_level3').prop('disabled',false)
+      $('#id_level3').prop('disabled',false).val(null)
     })
   })
 
   function fetchChildSelection(num,level){
     var deferred = new $.Deferred();
+    var dict = {'level1':2,'level2':3}
     $.ajax({
       url:"{% url 'fetch_child_select' %}",
       type:'GET',
@@ -91,9 +108,8 @@
           'level':level
       }
     }).done(function(res){
-      ids = res["ids"]
-      dict = {'level1':2,'level2':3}
-      el = `#id_level${dict[level]} option`
+      var ids = res["ids"]
+      var el = `#id_level${dict[level]} option:not([selected])`
       for (let op of $(el)){
         v = $(op).val()
         if(ids.indexOf(Number(v)) >= 0){
@@ -103,6 +119,7 @@
         }
       }
     }).always(function(res){
+      el = `#id_level${dict[level]} option[selected]`
       deferred.resolve();
     })
   

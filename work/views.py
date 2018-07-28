@@ -49,11 +49,16 @@ class TaskCreateView(CreateView):
     return super(TaskCreateView, self).post(request, *args, **kwargs)
 
 def fetch_child_select(request):
-  num = int(request.GET.get('num'))
-  level = request.GET.get('level')
-  if level == 'level1':
-    ids = [l2[0] for l2 in Level2.objects.filter(level1_id=num).values_list('id')]
-  elif level == 'level2':
-    ids = [l3[0] for l3 in Level3.objects.filter(level2_id=num).values_list('id')]
-  result = {'ids':ids}
-  return JsonResponse(result)
+  try:
+    num = int(request.GET.get('num'))
+    level = request.GET.get('level')
+    
+    if level == 'level1':
+      ids = [l2[0] for l2 in Level2.objects.filter(level1_id=num).values_list('id')]
+    elif level == 'level2':
+      ids = [l3[0] for l3 in Level3.objects.filter(level2_id=num).values_list('id')]
+  except Exception:
+    ids = []
+  finally:
+    result = {'ids':ids}
+    return JsonResponse(result)
