@@ -6,8 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 class TaskForm(forms.ModelForm):
   class Meta:
     model = Task
-    fields = ['level1','level2','level3','day','time']
-    widgets = {'day': forms.HiddenInput()}
+    fields = ['level1','level2','level3','day','time','user']
+    widgets = {'day': forms.HiddenInput(),'user': forms.HiddenInput()}
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)

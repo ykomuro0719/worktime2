@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import datetime
 # Create your models here.
 
@@ -15,9 +16,9 @@ class AbstractLevel(models.Model):
 class Level1(AbstractLevel):
   pass
 class Level2(AbstractLevel):
-  pass
+  level1 = models.ForeignKey(Level1,null=True,on_delete=models.CASCADE)
 class Level3(AbstractLevel):
-  pass
+  level2 = models.ForeignKey(Level2,null=True,on_delete=models.CASCADE)
 
 
 class Task(models.Model):
@@ -32,3 +33,4 @@ class Task(models.Model):
   level1 = models.ForeignKey(Level1,on_delete=models.CASCADE)
   level2 = models.ForeignKey(Level2,on_delete=models.CASCADE)
   level3 = models.ForeignKey(Level3,on_delete=models.CASCADE)
+  user = models.ForeignKey(User,null=True,on_delete=models.CASCADE)

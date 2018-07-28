@@ -14,6 +14,7 @@
 <form method="post">
 {% csrf_token %}
   {{form.day}}
+  {{form.user}}
   <div class="row">
     <div class="col-sm-2">
       {{form.level1}}
@@ -57,5 +58,56 @@
   var hour = ('00' + Math.floor(sum / 60)).slice(-2)
   var min = ('00' + sum % 60).slice(-2)
   $('#sum').text(`${hour}:${min}`)
+
+  $('#id_level2').prop('disabled',true)
+  $('#id_level3').prop('disabled',true)
+
+  $('#id_level1').on('change',function(){
+    $('#id_level2').prop('disabled',true)
+    $('#id_level3').prop('disabled',true)
+    var num = $('#id_level1 option:selected').val()
+    var defered = fetchChildSelection(num,'level1')
+    defered.done(function(){
+      $('#id_level2').prop('disabled',false)
+    })
+  })
+
+  $('#id_level2').on('change',function(){
+    $('#id_level3').prop('disabled',true)
+    var num = $('#id_level2 option:selected').val()
+    var defered = fetchChildSelection(num,'level2')
+    defered.done(function(){
+      $('#id_level3').prop('disabled',false)
+    })
+  })
+
+  function fetchChildSelection(num,level){
+    var deferred = new $.Deferred();
+    $.ajax({
+      url:"{% url 'fetch_child_select' %}",
+      type:'GET',
+      data:{
+          'num':num,
+          'level':level
+      }
+    }).done(function(res){
+      ids = res["ids"]
+      dict = {'level1':2,'level2':3}
+      el = `#id_level${dict[level]} option`
+      for (let op of $(el)){
+        v = $(op).val()
+        if(ids.indexOf(Number(v)) >= 0){
+          $(op).removeClass('no-display')
+        } else {
+          $(op).addClass('no-display')
+        }
+      }
+    }).always(function(res){
+      deferred.resolve();
+    })
+  
+  return deferred
+  }
+
 </script>
 {% endblock %}
