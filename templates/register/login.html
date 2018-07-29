@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
  
-<div class="mx-auto" style="width: 300px";>
-<img style="margin:30px;width:70%;height:70%;" src="{% static 'img/logo.png' %}" alt="Logo"/>
+<div class="mx-auto" style="width: 400px";>
+<img class="img-responsive" style="margin-top:30px;width:30%;height:30%;position:relative;right:-35%;" src="{% static 'img/logo.png' %}" alt="Logo"/>
 
 　<div>
     {% if form.non_field_errors or form.errors.username or form.errors.password %}
@@ -28,8 +28,8 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-6 "><button class="btn btn-lg btn-primary"type="submit">Login</button></div>
-                <div class="col-sm-6"><button id="new-btn" class="btn btn-lg btn-primary"type="button">SignUp</button></div>
+                <div class="col-sm-12"><button class="btn btn-lg btn-raised btn-default btn-block" type="submit">Login</button></div>
+                <div class="col-sm-12"><button id="new-btn" class="btn btn-lg btn-raised btn-default btn-block" type="button">SignUp</button></div>
             </div>
         </div>
     </form>

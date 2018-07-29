@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <br><br><br><br><br>
-<div class="mx-auto" style="width: 300px";>
+<div class="mx-auto" style="width: 400px";>
 	{% if form.non_field_errors or form.errors.username or form.errors.password1 or form.errors.password2 %}
 	<div class="alert alert-danger" role="alert" style="height:100px;">
 	    {{ form.non_field_errors }}
@@ -27,7 +27,10 @@
 					<label>{{form.password2.label}}</label>
 					{{ form.password2 }}
 			</div>
-	        <input class="btn btn-lg btn-primary" type="submit" value="Create">
+			<input class="btn btn-lg btn-raised btn-primary btn-block" type="submit" value="Create">
+			
+			<a class="float-right btn btn-lg btn-default btn-block" href="{% url 'login' %}">back</a>
+			
 	</form>
 </div>
 {% endblock %}

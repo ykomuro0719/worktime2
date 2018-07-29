@@ -52,7 +52,7 @@ def fetch_child_select(request):
   try:
     num = int(request.GET.get('num'))
     level = request.GET.get('level')
-    
+
     if level == 'level1':
       ids = [l2[0] for l2 in Level2.objects.filter(level1_id=num).values_list('id')]
     elif level == 'level2':
@@ -62,3 +62,40 @@ def fetch_child_select(request):
   finally:
     result = {'ids':ids}
     return JsonResponse(result)
+
+def delete_task(request):
+  if request.POST:
+    task_id = int(request.POST.get('id'))
+    Task.objects.filter(id=task_id).delete()
+    return JsonResponse({'msg':"削除しました"})
+  else:
+    return JsonResponse({'msg':"不正なメソッドです"},status=405)
+
+def fetch_registered_task(request):
+  base = request.GET.get('start_date')
+
+  in_date_format = '%Y-%m-%dT%H:%M:%S'
+  out_date_format = '%Y-%m-%d'
+
+  base_date = datetime.datetime.strptime(base,in_date_format).date()
+  start_date = base_date - datetime.timedelta(days=365)
+  end_date = base_date + datetime.timedelta(days=365)
+  
+  tasks = Task.objects.filter(day__gte=start_date,day__lte=end_date,user_id=request.user.id).order_by('day')
+  
+  result = []
+  display_line = 3
+  flg = display_line
+  for i,task in enumerate(tasks):
+    if i >= 1 and tasks[i].day != tasks[i-1].day:
+      flg = display_line
+    if flg > 0:
+      data = {
+        'id':task.id,
+        'title':task.level1.title,
+        'start':datetime.datetime.strftime(task.day,out_date_format)
+        }
+      result.append(data)
+      flg -= 1
+
+  return JsonResponse({'data':result})

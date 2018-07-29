@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/ja.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/material-design-fullcalendar.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -12,32 +15,79 @@
 <script>
   $(function() {
     $('#calendar').fullCalendar({
-    themeSystem:'bootstrap4',
-    header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek'
-      },
-    bootstrapFontAwesome: {
-      close: 'fa-times',
-      prev: 'fa-chevron-left',
-      next: 'fa-chevron-right',
-      prevYear: 'fa-angle-double-left',
-      nextYear: 'fa-angle-double-right'
-      },
-    selectable: true,
-    })
+      //themeSystem:'bootstrap4',
+      header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek'
+        },
+      bootstrapFontAwesome: {
+        close: 'fa-times',
+        prev: 'fa-chevron-left',
+        next: 'fa-chevron-right',
+        prevYear: 'fa-angle-double-left',
+        nextYear: 'fa-angle-double-right'
+        },
+      selectable: true,
+      locale: 'ja',
+      })
   })
   
-$('#calendar').fullCalendar({
-  dayClick: function(date, jsEvent, view) {
-    url = "{% url 'day-page' 99999 88888 77777 %}"
-    url = url.replace(/99999/,date.year())
-    url = url.replace(/88888/,date.month())
-    url = url.replace(/77777/,date.date())
-    window.location.href = url
+  $('#calendar').fullCalendar({
+    dayClick: function(date, jsEvent, view) {
+      url = "{% url 'day-page' 99999 88888 77777 %}"
+      url = url.replace(/99999/,date.year())
+      url = url.replace(/88888/,date.month()+1)
+      url = url.replace(/77777/,date.date())
+      window.location.href = url
+    }
+  });
+  $('.fc-day').hover(
+    function(){
+    $(this).css({'background-color':'#ffe4e1'})
+    },
+    function(){
+    $(this).css({'background-color':''})
+    },
+  )
+
+  function registerEvent(){
+    $.ajax({
+      url:"{% url 'fetch_registered_task' %}",
+      type:'GET',
+      data:{
+          'start_date':$('#calendar').fullCalendar('getDate').format()
+      }
+    }).done(function(res){
+      var tasks = res['data']
+      for (let task of tasks){
+        event = {id: Number(task['id']),title: task['title'], start:task['start']}
+        $('#calendar').fullCalendar('renderEvent', event, true)
+      }
+    })
   }
-});
+  window.load = registerEvent()
+  
+  $('#calendar').fullCalendar({
+    viewRender: function(view){
+      registerEvent()
+    }
+  })
+
+  function onResize() {
+    if (window.innerWidth <= 768) {
+      $('#calendar').fullCalendar('changeView', 'listMonth')
+    } else {
+      $('#calendar').fullCalendar('changeView', 'month')
+    }
+  }
+  $(function(){
+    $(window).resize(function(){
+      onResize();
+    });
+  })
+  
+
 </script>
 
 {% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-2">
+			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+					<a class="nav-link active" id="v-pills-statistics-tab" data-toggle="pill" href="#v-pills-statistics" role="tab" aria-controls="v-pills-statistics" aria-selected="true">Statistics</a>
+					<a class="nav-link" id="v-pills-password-tab" data-toggle="pill" href="#v-pills-password" role="tab" aria-controls="v-pills-password" aria-selected="false">パスワード変更</a>
+					<a class="nav-link" href="{% url 'index' %}">back</a>
+			</div>
+	</div>
+	<div class="col-sm-10">
+			<div class="tab-content" id="v-pills-tabContent">
+					<div class="tab-pane fade show active" id="v-pills-statistics" role="tabpanel" aria-labelledby="v-pills-statistics-tab">...</div>
+					
+					<!-- change password tab -->
+					<div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
+							<div class="mx-auto" style="width: 400px";>
+									{% if form.non_field_errors or form.errors.username or form.errors.password1 or form.errors.password2 %}
+									<div class="alert alert-danger" role="alert" style="height:100px;">
+											{{ form.non_field_errors }}
+											{{ form.errors.old_password }}
+											{{ form.errors.new_password1 }}
+											{{ form.errors.new_password2 }}
+									</div>
+									{% else %}
+									<div style="height:100px;"></div>
+									{% endif %}
+									<form id="password-form" method="post">
+											{% csrf_token %}
+											<div class="form-group">
+													<label>{{form.old_password.label}}</label>
+													{{ form.old_password }}
+											</div>
+											<div class="form-group">
+													<label>{{form.new_password1.label}}</label>
+													{{ form.new_password1 }}
+											</div>
+											<div class="form-group">
+													<label>{{form.new_password2.label}}</label>
+													{{ form.new_password2 }}
+											</div>
+											<input id="submit-btn" class="btn btn-lg btn-raised btn-primary btn-block" type="button" value="Update">
+									</form>
+								</div>
+					</div>
+					<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+					<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+				</div>
+	</div>
+</div>
+<script>
+	$('#submit-btn').on('click',function(e) {
+
+    var $form = $('#password-form');
+		var data = $form.serialize()
+		data['csrfmiddlewaretoken'] = '{{ csrf_token }}'
+		$.ajax({
+      url:"{% url 'profile' %}",
+      type:'POST',
+      data: data
+		}).done(function(res){
+			if(res['result'] == true){
+				toastr.info(res['msg'])
+			} else {
+				for(key in res){
+					toastr.error(res[key])
+				}
+			}
+		})
+	})
+
+</script>
+
+{% endblock %}

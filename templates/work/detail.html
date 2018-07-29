@@ -10,7 +10,12 @@
 {% block content %}
 <br><br>
 <h2>{{year}}/{{month}}/{{day}}</h2>
-<br><br>
+<div class="row">
+  <div class="col-sm-9"></div>
+  <div class="col-sm-3">
+      <button class="float-right btn btn-lg btn-default btn-block" type="button" onClick='history.back();'>back</button>
+  </div>
+</div>
 <form method="post">
 {% csrf_token %}
   {{form.day}}
@@ -45,7 +50,7 @@
       </div>
     </div>
     <div class="col-sm-2">
-      <button type="submit" class="btn btn-block btn-lg btn-dark">Send</button>
+      <button style="position: absolute;bottom:0;" type="submit" class="btn btn-block btn-lg btn-raised btn-default">Send</button>
     </div>
   </div>
 </form>
@@ -56,17 +61,20 @@
 </div>
 <table class="table table-striped">
   <thead>
-    <tr><th>Level1</th><th>Level2</th><th>Level3</th><th>Time</th></tr>
+    <tr><th>Level1</th><th>Level2</th><th>Level3</th><th>Time</th><th>action</th></tr>
   </thead>
   <tbody>
     {% for task in tasks %}
-    <tr><td>{{task.level1}}</td><td>{{task.level2}}</td><td>{{task.level3}}</td>
+    <tr id="task_{{task.id}}">
+      <td>{{task.level1}}</td><td>{{task.level2}}</td><td>{{task.level3}}</td>
       <td data-time="{{task.time}}">{{task.time|convert_time}}</td>
+      <td><button class="btn btn-danger del-btn" value="{{task.id}}">delete</button></td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 <script>
+  toastr.options.timeOut = 2000
   var sum = 0
   for(let el of $('[data-time]')){
     sum += Number($(el).attr('data-time'))
@@ -125,6 +133,27 @@
   
   return deferred
   }
+
+  $('.del-btn').on('click',function(){
+    var value = $(this).val()
+    $.ajax({
+      url:"{% url 'delete_task' %}",
+      type:'POST',
+      data:{
+          id: value,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+    }).done(function(res){
+      toastr.info(res['msg'])
+      taskId = '#task_' + value
+      $(taskId).remove()
+    }).fail(function(res){
+      if (res['msg'] == null){
+        res['msg'] = "エラーが発生しました"
+      }
+      toastr.info(res['msg'])
+    })
+  })
 
 </script>
 {% endblock %}
