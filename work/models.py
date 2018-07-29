@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
+from django.utils.timezone import now
 # Create your models here.
 
 class AbstractLevel(models.Model):
@@ -27,7 +27,7 @@ class Task(models.Model):
             (390,'06:30'),(420,'07:00'),(450,'07:30'),(480,'08:00'),
           )
   time = models.PositiveIntegerField(choices=CHOICE)
-  day = models.DateField(default=datetime.date.today())
+  day = models.DateField(default=now().date())
   create_at = models.DateTimeField(auto_now_add = True,null=True)
   update_at = models.DateTimeField(auto_now = True,null=True)
   level1 = models.ForeignKey(Level1,on_delete=models.CASCADE)
