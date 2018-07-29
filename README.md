@@ -22,6 +22,13 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
+##### Docker
+```shell
+git clone https://github.com/ykomuro0719/worktime2.git
+cd worktime2
+docker build -t worktime .
+docker run -p 8000:8000 worktime
+```
 
 ### ScreenShot
 ---
