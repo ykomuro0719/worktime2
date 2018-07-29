@@ -25,7 +25,7 @@ SECRET_KEY = '9*v%k1+t@vc(9w)*9w(v=01a51a)^osr#pfcue8k#w9p-+^2ms'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/register/login/'
