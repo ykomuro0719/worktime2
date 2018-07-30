@@ -56,7 +56,7 @@
     "fields": {
       "title": "分類2-中項目1",
       "description": "説明",
-      "level1_id":1
+      "level1_id":2
     }
   },
   {
@@ -65,7 +65,7 @@
     "fields": {
       "title": "分類2-中項目2",
       "description": "説明",
-      "level1_id":1
+      "level1_id":2
     }
   },
   {
@@ -74,7 +74,7 @@
     "fields": {
       "title": "分類2-中項目3",
       "description": "説明",
-      "level1_id":1
+      "level1_id":2
     }
   },
   {
@@ -83,7 +83,7 @@
     "fields": {
       "title": "分類3-中項目1",
       "description": "説明",
-      "level1_id":1
+      "level1_id":3
     }
   },
   {
@@ -92,7 +92,7 @@
     "fields": {
       "title": "分類3-中項目2",
       "description": "説明",
-      "level1_id":1
+      "level1_id":3
     }
   },
   {
@@ -101,7 +101,7 @@
     "fields": {
       "title": "分類3-中項目3",
       "description": "説明",
-      "level1_id":1
+      "level1_id":3
     }
   },
   {
